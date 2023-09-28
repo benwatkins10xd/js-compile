@@ -3,9 +3,12 @@ class Lexer {
         this.inputText = inputText;
         this.tokens = [];
         this.tokenTypes = [
-            {type: 'number', regex: /^\d+/},
-            {type: 'binaryOperator', regex: /^[+\-*/]/},
-            {type: 'whitespace', regex: /^\s+/}
+            { type: 'number', regex: /^\d+/ },
+            { type: 'plusToken', regex: /^\+/ },
+            { type: 'minusToken', regex: /^\-/ },
+            { type: 'timesToken', regex: /^\*/ },
+            { type: 'divideToken', regex: /^\// },
+            { type: 'whitespace', regex: /^\s+/ }
         ];
     }
 
@@ -21,7 +24,7 @@ class Lexer {
                 if (regexResult && regexResult.index === 0) {
                     const value = regexResult[0];
                     const type = tokenType.type;
-                    this.tokens.push({tokenType: type, tokenValue: value});
+                    this.tokens.push({ tokenType: type, tokenValue: value });
                     currentIndex += value.length;
                     matchedToken = type;
                     break;
@@ -29,11 +32,16 @@ class Lexer {
             }
 
             if (!matchedToken) {
-                console.log(`Error: unrecognised token: ${this.inputText.slice(currentIndex)}`);
+                console.log(`Lexer error: unrecognised token: ${this.inputText.slice(currentIndex)}`);
                 return;
             }
         }
-        console.log(this.tokens)
+        this.tokens.push({ tokenType: 'endOfFileToken', tokenValue: '\0' });
+        for (let tokenIndex = 0; tokenIndex < this.tokens.length; tokenIndex++) {
+            if (this.tokens[tokenIndex].tokenType === 'whitespace') {
+                this.tokens.splice(tokenIndex, 1);
+            }
+        }
         return this.tokens;
     }
 }
