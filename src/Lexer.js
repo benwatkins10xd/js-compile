@@ -3,6 +3,7 @@ class Lexer {
         this.inputText = inputText;
         this.tokens = [];
         this.tokenTypes = [
+            // TODO: lexer crashes when putting decimal. could fix regex?
             { type: 'number', regex: /^\d+/ },
             { type: 'plusToken', regex: /^\+/ },
             { type: 'minusToken', regex: /^\-/ },
@@ -13,7 +14,6 @@ class Lexer {
     }
 
     tokenize() {
-        console.log(this.inputText);
         let currentIndex = 0;
         while (currentIndex < this.inputText.length) {
             let matchedToken = null;
