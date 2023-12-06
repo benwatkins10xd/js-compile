@@ -8,7 +8,9 @@ Analyse and calculate - use the AST and perform type checking and calculations/o
 
 const readline = require('readline');
 const { Lexer } = require('./Lexer');
-const { Parser } = require('./Parser')
+const { Parser } = require('./Parser');
+
+const { Evaluator } = require('./Evaluator')
 
 async function getStdin() {
     const rl = readline.createInterface({
@@ -24,40 +26,8 @@ async function getStdin() {
     });
 }
 
-function prettyPrintTree(node, depth = 0, isLast = true, prefix = "") {
-    let result = "";
 
-    // Check if the node is an operator or a leaf node
-    if (node.tokenType && node.tokenValue) {
-        const nodeValue = `${node.tokenType}: ${node.tokenValue}`;
-        const branchSymbol = isLast ? "└── " : "├── ";
 
-        // Print the current node
-        result += prefix + branchSymbol + nodeValue + "\n";
-    } else {
-        // Node is an operator
-        const operatorValue = node.operator
-            ? `${node.operator.tokenType}: ${node.operator.tokenValue}`
-            : "undefined";
-        const branchSymbol = isLast ? "└── " : "├── ";
-
-        // Print the operator node
-        result += prefix + branchSymbol + operatorValue + "\n";
-    }
-
-    const children = [node.left, node.right];
-
-    // Recursively print the child nodes
-    children.forEach((child, index) => {
-        if (child) {
-            const newPrefix = prefix + (isLast ? "    " : "│   ");
-            const newIsLast = index === children.length - 1;
-            result += prettyPrintTree(child, depth + 1, newIsLast, newPrefix);
-        }
-    });
-
-    return result;
-}
 
 async function main() {
     let showTokens = false;
@@ -86,7 +56,11 @@ async function main() {
         }
         let parser = new Parser(tokens);
         let ast = parser.parse();
-        console.log(prettyPrintTree(ast))
+        // console.log(JSON.stringify(ast, null, 4))
+
+        let evaluator = new Evaluator();
+        let result = evaluator.evaluate(ast)
+        console.log(result);
     }
 }
 

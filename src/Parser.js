@@ -1,3 +1,5 @@
+const { BinaryExpression } = require("./expressionTypes");
+
 class Parser {
     #tokens
     #position
@@ -38,21 +40,50 @@ class Parser {
         return this.#match('number');
     }
 
-    parse() {
-        // match a number token
-        let leftToken = this.#parseBinaryExpression();
-        while (this.#currentToken().tokenType === 'plusToken' ||
-            this.#currentToken().tokenType === 'minusToken') {
+    /* BIDMAS:
+    B - brackets
+    I - indices (powers)
+    D - division
+    M - multiplication
+    A - addition
+    S - subtraction
+    */
+    #getBinaryOperatorPriority(tokenType) {
+        switch (tokenType) {
+            case "timesToken":
+            case "divideToken":
+                return 2;    
+            case "plusToken":
+            case "minusToken":
+                return 1;
+            default:
+                return 0;
+        }
+    }
+
+    #parseExpression(parentPriority = 0) {
+        let leftToken = this.#parseBinaryExpression()
+
+        while (true) {
+            let priority = this.#getBinaryOperatorPriority(this.#currentToken().tokenType)
+            if (priority === 0 || priority <= parentPriority) {
+                break;
+            }
             let operatorToken = this.#nextToken();
-            let rightToken = this.#parseBinaryExpression();
-            leftToken = {
-                left: leftToken,
-                operator: operatorToken,
-                right: rightToken
-            };
+            let rightToken = this.#parseExpression(priority);
+            leftToken = new BinaryExpression(
+                leftToken,
+                operatorToken, 
+                rightToken
+            )
         }
         return leftToken;
     }
+
+    parse() {
+        let ast = this.#parseExpression();
+        return ast;
+    }   
 }
 
 exports.Parser = Parser
