@@ -2,6 +2,15 @@
 
 Recording this as a YouTube series here: [YouTube Playlist](https://youtube.com/playlist?list=PLKddWTBxzVCLRCltbWZxCyKm3IqkjEsBw&si=RclBs9DIxojZ3Qwy)
 
+This is my implementation of a basic compiler in vanilla JavaScript. Doing this without type safety is a bit of a struggle so it's better to use TypeScript, but we don't do that around here.
+
+This compiler has three main stages:
+1. Lexing - tokenizes the user's input
+2. Parsing - creates an abstract syntax tree (AST) from the list of tokens
+3. Evaluating - walking the AST and calculating any results.
+
+The main goal for this project is to create a working expression evaluator, do variable assignments and maybe some control structures like for loops or while loops. We also want to have some unit tests to make sure we're not breaking anything.
+
 ## Prerequisites
 
 - Node.js installed ([NodeJS downloads](https://nodejs.org/en/download))
