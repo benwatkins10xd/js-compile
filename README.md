@@ -1,4 +1,4 @@
-# js-compile
+# js-compile - open to name suggestions
 
 Recording this as a YouTube series here: [YouTube Playlist](https://youtube.com/playlist?list=PLKddWTBxzVCLRCltbWZxCyKm3IqkjEsBw&si=RclBs9DIxojZ3Qwy)
 
