@@ -1,0 +1,22 @@
+name: js-compile CI
+
+on:
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+
+      - name: setup node v18
+        uses: actions/setup-node@v3
+        with: 
+          node-version: 18
+
+      - name: run unit tests
+        run: node --test
