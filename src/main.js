@@ -1,68 +1,66 @@
-/* 
-Note: only concerned with integers for now
-Input text - 1 + 3 => [1, ' ', +, ' ', 3]
-Lexer - tokenises the input --- done
-Parser - goes through the tokens and creates an abstract syntax tree (AST)
-Analyse and calculate - use the AST and perform type checking and calculations/operations
-*/
-
-const readline = require('readline');
-const { Lexer } = require('./Lexer');
-const { Parser } = require('./Parser');
-
-const { Evaluator } = require('./Evaluator')
+const readline = require("readline");
+const { CompilerError } = require("./Errors");
+const { Compiler } = require("./Compiler");
 
 async function getStdin() {
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-    });
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
 
-    return new Promise((resolve) => {
-        rl.question('> ', (input) => {
-            rl.close();
-            resolve(input);
-        });
+  return new Promise((resolve) => {
+    rl.question("> ", (input) => {
+      rl.close();
+      resolve(input);
     });
+  });
 }
-
-
-
 
 async function main() {
-    let showTokens = false;
+  let showTokens = false;
+  let showAst = false;
 
-    while (true) {
-        const input = await getStdin();
-        if (input === '#quit') {
-            console.log("Exiting");
-            break;
-        } else if (input === '#clear') {
-            console.clear();
-            process.stdout.write("> ")
-            continue;
-        } else if (input === '#tokens') {
-            showTokens = !showTokens;
-            console.log(showTokens ? 'Showing tokens' : 'Hiding tokens');
-            continue;
-        }
+  while (true) {
+    const input = await getStdin();
+    if (input === "#quit") {
+      console.log("Exiting");
+      break;
+    } else if (input === "#clear") {
+      console.clear();
+      process.stdout.write("> ");
+      continue;
+    } else if (input === "#tokens") {
+      showTokens = !showTokens;
+      console.log(showTokens ? "Showing tokens" : "Hiding tokens");
+      continue;
+    } else if (input === "#ast") {
+      showAst = !showAst;
+      console.log(showAst ? "Showing AST" : "Hiding AST");
+      continue;
+    } else if (input === "") {
+      continue;
+    } // add more commands
 
-        // add more commands
+    try {
+      const compiler = new Compiler();
+      console.log(compiler.compile(input));
 
-        let lexer = new Lexer(input);
-        let tokens = lexer.tokenize()
-        if (showTokens) {
-            console.log(tokens);
-        }
-        let parser = new Parser(tokens);
-        let ast = parser.parse();
-        // console.log(JSON.stringify(ast, null, 4))
-
-        let evaluator = new Evaluator();
-        let result = evaluator.evaluate(ast)
-        console.log(result);
+      // optional debugging
+      if (showAst) {
+        console.log(JSON.stringify(compiler.ast, null, 2));
+      } else if (showTokens) {
+        console.log(compiler.tokens);
+      }
+    } catch (error) {
+      if (error instanceof CompilerError) {
+        console.error(error.toString()); // hide stack trace
+        continue;
+      } else {
+        console.error(error); // unexpected error - break
+        break;
+      }
     }
+  }
 }
 
-main()
-
+main();
