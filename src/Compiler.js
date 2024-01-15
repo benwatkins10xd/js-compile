@@ -3,9 +3,10 @@ const { Parser } = require("./Parser");
 const { Evaluator } = require("./Evaluator");
 
 class Compiler {
-  constructor() {
+  constructor(variables) {
     this.ast;
     this.tokens;
+    this.variables = variables;
   }
 
   compile(input) {
@@ -18,7 +19,7 @@ class Compiler {
     this.ast = parser.parse();
 
     // Finally, evaluate result
-    let evaluator = new Evaluator();
+    let evaluator = new Evaluator(this.variables);
     return evaluator.evaluate(this.ast);
   }
 }
