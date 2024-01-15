@@ -2,17 +2,15 @@ const { describe, it } = require("node:test");
 const assert = require("node:assert");
 const { Parser } = require("../src/Parser");
 const { BinaryExpression } = require("../src/expressionTypes");
+const { Token } = require("../src/Token");
 
 describe("parser test suite", () => {
   it("should parse single number", () => {
     const tokens = [
-      { tokenType: "number", tokenValue: "1" },
-      { tokenType: "endOfFileToken", tokenValue: "\x00" },
+      new Token("number", "1"),
+      new Token("endOfFileToken", "\x00"),
     ];
-    const expectedAst = {
-      tokenType: "number",
-      tokenValue: "1",
-    };
+    const expectedAst = new Token("number", "1");
     const parser = new Parser(tokens);
     const ast = parser.parse();
     assert.deepStrictEqual(ast, expectedAst);
@@ -20,26 +18,17 @@ describe("parser test suite", () => {
 
   it("should parse a simple addition expression", () => {
     const tokens = [
-      { tokenType: "number", tokenValue: "1" },
-      { tokenType: "plusToken", tokenValue: "+" },
-      { tokenType: "number", tokenValue: "2" },
-      { tokenType: "endOfFileToken", tokenValue: "\0" },
+      new Token("number", "1"),
+      new Token("plusToken", "+"),
+      new Token("number", "2"),
+      new Token("endOfFileToken", "\0"),
     ];
     const parser = new Parser(tokens);
     const ast = parser.parse();
 
     assert.ok(ast instanceof BinaryExpression);
-    assert.deepStrictEqual(ast.leftToken, {
-      tokenType: "number",
-      tokenValue: "1",
-    });
-    assert.deepStrictEqual(ast.operatorToken, {
-      tokenType: "plusToken",
-      tokenValue: "+",
-    });
-    assert.deepStrictEqual(ast.rightToken, {
-      tokenType: "number",
-      tokenValue: "2",
-    });
+    assert.deepStrictEqual(ast.leftToken, new Token("number", "1"));
+    assert.deepStrictEqual(ast.operatorToken, new Token("plusToken", "+"));
+    assert.deepStrictEqual(ast.rightToken, new Token("number", "2"));
   });
 });

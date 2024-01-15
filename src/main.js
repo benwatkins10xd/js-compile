@@ -19,6 +19,7 @@ async function getStdin() {
 async function main() {
   let showTokens = false;
   let showAst = false;
+  let variables = {};
 
   while (true) {
     const input = await getStdin();
@@ -42,7 +43,7 @@ async function main() {
     } // add more commands
 
     try {
-      const compiler = new Compiler();
+      const compiler = new Compiler(variables);
       console.log(compiler.compile(input));
 
       // optional debugging

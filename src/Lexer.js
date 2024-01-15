@@ -1,4 +1,5 @@
 const { LexerError } = require("./Errors");
+const { Token } = require("./Token");
 
 class Lexer {
   constructor(inputText) {
@@ -12,6 +13,10 @@ class Lexer {
       { type: "timesToken", regex: /^\*/ },
       { type: "divideToken", regex: /^\// },
       { type: "whitespace", regex: /^\s+/ },
+      { type: "openBracketToken", regex: /^\(/ },
+      { type: "closeBracketToken", regex: /^\)/ },
+      { type: "unquotedString", regex: /^[a-zA-Z]+/ },
+      { type: "assignmentOperator", regex: /^=/ },
     ];
   }
 
@@ -28,7 +33,12 @@ class Lexer {
         if (regexResult && regexResult.index === 0) {
           const value = regexResult[0];
           const type = tokenType.type;
-          this.tokens.push({ tokenType: type, tokenValue: value });
+          // handle 'let' keyword
+          if (type === "unquotedString" && value === "let") {
+            this.tokens.push(new Token("letKeyword", value));
+          } else {
+            this.tokens.push(new Token(type, value));
+          }
           currentIndex += value.length;
           matchedToken = type;
           break;
@@ -43,7 +53,7 @@ class Lexer {
         );
       }
     }
-    this.tokens.push({ tokenType: "endOfFileToken", tokenValue: "\0" });
+    this.tokens.push(new Token("endOfFileToken", "\0"));
     for (let tokenIndex = 0; tokenIndex < this.tokens.length; tokenIndex++) {
       if (this.tokens[tokenIndex].tokenType === "whitespace") {
         this.tokens.splice(tokenIndex, 1);
