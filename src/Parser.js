@@ -66,7 +66,7 @@ class Parser {
     switch (firstToken.tokenType) {
       case "openBracketToken":
         let leftToken = this.#nextToken();
-        let operatorToken = this.#nextToken();
+        let operatorToken = this.#parseVariableAssignment();
         let rightToken = this.#match("closeBracketToken");
         return new ParenthesisedExpression(
           leftToken,

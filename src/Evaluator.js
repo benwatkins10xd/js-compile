@@ -25,7 +25,6 @@ class Evaluator {
     // handle variable assignments
     if (ast instanceof VariableAssignment) {
       const value = this.evaluate(ast.variableValue);
-      console.log(ast.variableName.tokenValue);
       this.variables[ast.variableName.tokenValue] = value;
       return value;
     }
