@@ -24,6 +24,26 @@ The main goal for this project is to create a working expression evaluator, do v
 
 3. Run the compiler by running node on the entrypoint: `node src/main.js`
 
+## Test Suite
+
+`js-compile` has a test suite to make sure that all components work as expected. To run the test suite, run the below command whilst in the root directory.
+
+```shell
+node --test
+```
+
+## Goals for project
+
+1. ~~Lex and parse input~~
+2. ~~Get a basic expression evaluator done (basically a calculator)~~
+3. ~~Variable assignments (let, var)~~
+4. Basic control structures? For loops?
+5. Unary operators (-1, +1)
+6. Comparisons (==, !=, etc.)
+7. Good test suite to make sure we don't break anything
+8. Create an interactive web application that lets you run the compiler in browser
+9. Deploy that on Firebase
+
 ## Contributing
 
 Contributions/improvements are always welcome. Please create a branch off main and make any changes there, then create a pull request!
