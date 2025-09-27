@@ -12,6 +12,8 @@ import {
   ASSIGNMENT_OPERATOR_TYPE,
   LET_KEYWORD_TYPE,
   EOF_TOKEN_TYPE,
+  MODULO_TOKEN_TYPE,
+  POWER_TOKEN_TYPE,
 } from "./constants/token-types.js";
 import { LexerError } from "./structs/errors.js";
 import { Token } from "./structs/token.js";
@@ -21,12 +23,16 @@ export class Lexer {
     this.inputText = inputText;
     this.tokens = [];
     this.tokenTypes = [
-      // TODO: lexer crashes when putting decimal. could fix regex?
+      // numbers
       { type: NUMBER_TOKEN_TYPE, regex: /^\d+/ },
+      // operators
       { type: PLUS_TOKEN_TYPE, regex: /^\+/ },
       { type: MINUS_TOKEN_TYPE, regex: /^\-/ },
       { type: TIMES_TOKEN_TYPE, regex: /^\*/ },
       { type: DIVIDE_TOKEN_TYPE, regex: /^\// },
+      { type: MODULO_TOKEN_TYPE, regex: /^\%/ },
+      { type: POWER_TOKEN_TYPE, regex: /^\^/ },
+      // strings
       { type: WHITESPACE_TOKEN_TYPE, regex: /^\s+/ },
       { type: OPEN_BRACKET_TOKEN_TYPE, regex: /^\(/ },
       { type: CLOSE_BRACKET_TOKEN_TYPE, regex: /^\)/ },

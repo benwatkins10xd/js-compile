@@ -12,6 +12,8 @@ export const TIMES_TOKEN_TYPE = "timesToken";
 export const DIVIDE_TOKEN_TYPE = "divideToken";
 export const PLUS_TOKEN_TYPE = "plusToken";
 export const MINUS_TOKEN_TYPE = "minusToken";
+export const MODULO_TOKEN_TYPE = "moduloToken";
+export const POWER_TOKEN_TYPE = "powerToken";
 
 // keyword types
 export const LET_KEYWORD_TYPE = "letKeyword";

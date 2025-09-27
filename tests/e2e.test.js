@@ -9,12 +9,15 @@ describe("e2e test suite", () => {
     assert.strictEqual(compiler.compile("2 + 3 - 1"), 4);
     assert.strictEqual(compiler.compile("4 * 5 / 2"), 10);
     assert.strictEqual(compiler.compile("2 + 3 * 4"), 14);
+    assert.strictEqual(compiler.compile("2 ^ 3 * 4"), 32);
+    assert.strictEqual(compiler.compile("11 % 2 * 4"), 4);
   });
   it("should handle precedence with brackets", () => {
     const compiler = new Compiler({});
     assert.strictEqual(compiler.compile("2 * (3 + 4)"), 14);
     assert.strictEqual(compiler.compile("2 * 3 + 4"), 10);
     assert.strictEqual(compiler.compile("2 * (3 + (4 - 1))"), 12);
+    assert.strictEqual(compiler.compile("(8 / 2) + 5 ^ 2 - 3 % 2"), 28);
   });
   it("should create new variable and reference it", () => {
     const compiler = new Compiler({});

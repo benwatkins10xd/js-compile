@@ -13,6 +13,8 @@ export class Evaluator {
       "-": (left, right) => left - right,
       "*": (left, right) => left * right,
       "/": (left, right) => left / right,
+      "%": (left, right) => left % right,
+      "^": (left, right) => left ** right,
     };
     this.variables = variables;
   }

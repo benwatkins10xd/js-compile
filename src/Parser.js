@@ -16,6 +16,8 @@ import {
   TIMES_TOKEN_TYPE,
   ASSIGNMENT_OPERATOR_TYPE,
   LET_KEYWORD_TYPE,
+  POWER_TOKEN_TYPE,
+  MODULO_TOKEN_TYPE,
 } from "./constants/token-types.js";
 
 export class Parser {
@@ -96,8 +98,11 @@ export class Parser {
 
   #getBinaryOperatorPriority(tokenType) {
     switch (tokenType) {
+      case POWER_TOKEN_TYPE:
+        return 3;
       case TIMES_TOKEN_TYPE:
       case DIVIDE_TOKEN_TYPE:
+      case MODULO_TOKEN_TYPE:
         return 2;
       case PLUS_TOKEN_TYPE:
       case MINUS_TOKEN_TYPE:
