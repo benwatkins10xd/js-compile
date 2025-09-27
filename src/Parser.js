@@ -3,6 +3,7 @@ import {
   VariableAssignment,
   ParenthesisedExpression,
   VariableAccess,
+  BooleanExpression,
 } from "./structs/expression-types.js";
 import { ParserError } from "./structs/errors.js";
 import {
@@ -18,6 +19,8 @@ import {
   LET_KEYWORD_TYPE,
   POWER_TOKEN_TYPE,
   MODULO_TOKEN_TYPE,
+  TRUE_KEYWORD_TYPE,
+  FALSE_KEYWORD_TYPE,
 } from "./constants/token-types.js";
 
 export class Parser {
@@ -140,6 +143,11 @@ export class Parser {
     if (this.#currentToken().tokenType === LET_KEYWORD_TYPE) {
       this.#nextToken(); // consume the 'let' token.
       ast = this.#parseVariableAssignment();
+    } else if (
+      this.#currentToken().tokenType === TRUE_KEYWORD_TYPE ||
+      this.#currentToken().tokenType === FALSE_KEYWORD_TYPE
+    ) {
+      ast = new BooleanExpression(this.#nextToken());
     } else {
       return this.#parseBinaryExpression();
     }

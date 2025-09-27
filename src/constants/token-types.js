@@ -17,3 +17,5 @@ export const POWER_TOKEN_TYPE = "powerToken";
 
 // keyword types
 export const LET_KEYWORD_TYPE = "letKeyword";
+export const TRUE_KEYWORD_TYPE = "trueKeyword";
+export const FALSE_KEYWORD_TYPE = "falseKeyword";

@@ -3,6 +3,7 @@ import {
   ParenthesisedExpression,
   VariableAssignment,
   VariableAccess,
+  BooleanExpression,
 } from "./structs/expression-types.js";
 import { EvaluatorError } from "./structs/errors.js";
 import { NUMBER_TOKEN_TYPE } from "./constants/token-types.js";
@@ -39,6 +40,10 @@ export class Evaluator {
           `Error: variable {${ast.variableName}} is not defined.`
         );
       }
+    }
+
+    if (ast instanceof BooleanExpression) {
+      return ast.value;
     }
 
     // handle binary operations

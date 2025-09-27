@@ -1,4 +1,7 @@
-import { LET_KEYWORD_VALUE } from "./constants/keyword-values.js";
+import {
+  LET_KEYWORD_VALUE,
+  TRUE_KEYWORD_VALUE,
+} from "./constants/keyword-values.js";
 import {
   NUMBER_TOKEN_TYPE,
   PLUS_TOKEN_TYPE,
@@ -14,6 +17,8 @@ import {
   EOF_TOKEN_TYPE,
   MODULO_TOKEN_TYPE,
   POWER_TOKEN_TYPE,
+  TRUE_KEYWORD_TYPE,
+  FALSE_KEYWORD_TYPE,
 } from "./constants/token-types.js";
 import { LexerError } from "./structs/errors.js";
 import { Token } from "./structs/token.js";
@@ -54,9 +59,19 @@ export class Lexer {
         if (regexResult && regexResult.index === 0) {
           const value = regexResult[0];
           const type = tokenType.type;
-          // handle 'let' keyword
+          // TODO: change to switch statement
           if (type === UNQUOTED_STRING_TYPE && value === LET_KEYWORD_VALUE) {
             this.tokens.push(new Token(LET_KEYWORD_TYPE, value));
+          } else if (
+            type === UNQUOTED_STRING_TYPE &&
+            value === TRUE_KEYWORD_VALUE
+          ) {
+            this.tokens.push(new Token(TRUE_KEYWORD_TYPE, value));
+          } else if (
+            type === UNQUOTED_STRING_TYPE &&
+            value === FALSE_KEYWORD_TYPE
+          ) {
+            this.tokens.push(new Token(FALSE_KEYWORD_TYPE, value));
           } else {
             this.tokens.push(new Token(type, value));
           }

@@ -39,3 +39,10 @@ export class ParenthesisedExpression extends SyntaxNode {
     this.rightBracket = rightBracket;
   }
 }
+
+export class BooleanExpression extends SyntaxNode {
+  constructor(value) {
+    super();
+    this.value = value;
+  }
+}
