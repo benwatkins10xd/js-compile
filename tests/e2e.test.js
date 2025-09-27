@@ -1,6 +1,6 @@
-const { describe, it } = require("node:test");
-const assert = require("node:assert");
-const { Compiler } = require("../src/Compiler");
+import { describe, it } from "node:test";
+import assert from "node:assert";
+import { Compiler } from "../src/compiler.js";
 
 describe("e2e test suite", () => {
   it("should follow correct order of mathematical operations", () => {

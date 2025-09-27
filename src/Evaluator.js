@@ -1,12 +1,12 @@
-const {
+import {
   BinaryExpression,
   ParenthesisedExpression,
   VariableAssignment,
   VariableAccess,
-} = require("./expressionTypes");
-const { EvaluatorError } = require("./Errors");
-
-class Evaluator {
+} from "./structs/expression-types.js";
+import { EvaluatorError } from "./structs/errors.js";
+import { NUMBER_TOKEN_TYPE } from "./constants/token-types.js";
+export class Evaluator {
   constructor(variables) {
     this.operations = {
       "+": (left, right) => left + right,
@@ -50,12 +50,10 @@ class Evaluator {
       } else {
         throw new EvaluatorError(`Unsupported operator: ${operator}`);
       }
-    } else if (ast.tokenType === "number") {
+    } else if (ast.tokenType === NUMBER_TOKEN_TYPE) {
       return parseFloat(ast.tokenValue);
     } else {
       throw new EvaluatorError(`Unsupported syntax node: ${ast.tokenType}`);
     }
   }
 }
-
-exports.Evaluator = Evaluator;

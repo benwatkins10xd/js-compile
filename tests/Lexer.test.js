@@ -1,8 +1,8 @@
-const { describe, it } = require("node:test");
-const assert = require("node:assert");
-const { Lexer } = require("../src/Lexer");
-const { LexerError } = require("../src/Errors");
-const { Token } = require("../src/Token");
+import { describe, it } from "node:test";
+import assert from "node:assert";
+import { Lexer } from "../src/lexer.js";
+import { LexerError } from "../src/structs/errors.js";
+import { Token } from "../src/structs/token.js";
 
 describe("lexer test suite", () => {
   it("should tokenize single number", () => {

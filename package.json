@@ -1,0 +1,15 @@
+{
+  "name": "js-compile",
+  "version": "1.0.0",
+  "description": "Recording this as a YouTube series here: [YouTube Playlist](https://youtube.com/playlist?list=PLKddWTBxzVCLRCltbWZxCyKm3IqkjEsBw&si=RclBs9DIxojZ3Qwy)",
+  "main": "main.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "type": "module",
+  "author": "",
+  "license": "ISC"
+}

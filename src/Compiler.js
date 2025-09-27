@@ -1,8 +1,8 @@
-const { Lexer } = require("./Lexer");
-const { Parser } = require("./Parser");
-const { Evaluator } = require("./Evaluator");
+import { Lexer } from "./lexer.js";
+import { Parser } from "./parser.js";
+import { Evaluator } from "./evaluator.js";
 
-class Compiler {
+export class Compiler {
   constructor(variables) {
     this.ast;
     this.tokens;
@@ -23,4 +23,3 @@ class Compiler {
     return evaluator.evaluate(this.ast);
   }
 }
-exports.Compiler = Compiler;
