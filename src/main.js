@@ -1,11 +1,12 @@
-const readline = require("readline");
-const { CompilerError } = require("./Errors");
-const { Compiler } = require("./Compiler");
+import { createInterface } from "node:readline";
+import { Compiler } from "./compiler.js";
+import { stdin, stdout } from "node:process";
+import { CompilerError } from "./structs/errors.js";
 
 async function getStdin() {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
+  const rl = createInterface({
+    input: stdin,
+    output: stdout,
   });
 
   return new Promise((resolve) => {

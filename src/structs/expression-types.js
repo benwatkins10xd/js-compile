@@ -1,4 +1,4 @@
-class SyntaxNode {
+export class SyntaxNode {
   constructor() {
     if (this.constructor === SyntaxNode) {
       throw new Error("Cant instantiate this");
@@ -6,7 +6,7 @@ class SyntaxNode {
   }
 }
 
-class BinaryExpression extends SyntaxNode {
+export class BinaryExpression extends SyntaxNode {
   constructor(leftToken, operatorToken, rightToken) {
     super();
     this.leftToken = leftToken;
@@ -15,7 +15,7 @@ class BinaryExpression extends SyntaxNode {
   }
 }
 
-class VariableAssignment extends SyntaxNode {
+export class VariableAssignment extends SyntaxNode {
   constructor(variableName, identifierToken, variableValue) {
     super();
     this.variableName = variableName;
@@ -24,14 +24,14 @@ class VariableAssignment extends SyntaxNode {
   }
 }
 
-class VariableAccess extends SyntaxNode {
+export class VariableAccess extends SyntaxNode {
   constructor(variableName) {
     super();
     this.variableName = variableName;
   }
 }
 
-class ParenthesisedExpression extends SyntaxNode {
+export class ParenthesisedExpression extends SyntaxNode {
   constructor(leftBracket, expression, rightBracket) {
     super();
     this.leftBracket = leftBracket;
@@ -40,8 +40,9 @@ class ParenthesisedExpression extends SyntaxNode {
   }
 }
 
-exports.SyntaxNode = SyntaxNode;
-exports.BinaryExpression = BinaryExpression;
-exports.VariableAssignment = VariableAssignment;
-exports.VariableAccess = VariableAccess;
-exports.ParenthesisedExpression = ParenthesisedExpression;
+export class BooleanExpression extends SyntaxNode {
+  constructor(value) {
+    super();
+    this.value = value;
+  }
+}

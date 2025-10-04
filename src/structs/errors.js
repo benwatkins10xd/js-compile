@@ -1,11 +1,11 @@
-class CompilerError extends Error {
+export class CompilerError extends Error {
   constructor(message) {
     super(message);
     this.name = "CompilerError";
   }
 }
 
-class LexerError extends CompilerError {
+export class LexerError extends CompilerError {
   constructor(message) {
     super(message);
     this.name = "LexerError";
@@ -15,7 +15,7 @@ class LexerError extends CompilerError {
   }
 }
 
-class ParserError extends CompilerError {
+export class ParserError extends CompilerError {
   constructor(message) {
     super(message);
     this.name = "ParserError";
@@ -25,7 +25,7 @@ class ParserError extends CompilerError {
   }
 }
 
-class EvaluatorError extends CompilerError {
+export class EvaluatorError extends CompilerError {
   constructor(message) {
     super(message);
     this.name = "EvaluatorError";
@@ -34,8 +34,3 @@ class EvaluatorError extends CompilerError {
     return this.message;
   }
 }
-
-exports.CompilerError = CompilerError;
-exports.EvaluatorError = EvaluatorError;
-exports.LexerError = LexerError;
-exports.ParserError = ParserError;

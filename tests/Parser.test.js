@@ -1,8 +1,8 @@
-const { describe, it } = require("node:test");
-const assert = require("node:assert");
-const { Parser } = require("../src/Parser");
-const { BinaryExpression } = require("../src/expressionTypes");
-const { Token } = require("../src/Token");
+import { describe, it } from "node:test";
+import assert from "node:assert";
+import { Parser } from "../src/parser.js";
+import { BinaryExpression } from "../src/structs/expression-types.js";
+import { Token } from "../src/structs/token.js";
 
 describe("parser test suite", () => {
   it("should parse single number", () => {

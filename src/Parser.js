@@ -1,11 +1,29 @@
-const {
+import {
   BinaryExpression,
   VariableAssignment,
   ParenthesisedExpression,
   VariableAccess,
-} = require("./expressionTypes");
-const { ParserError } = require("./Errors");
-class Parser {
+  BooleanExpression,
+} from "./structs/expression-types.js";
+import { ParserError } from "./structs/errors.js";
+import {
+  OPEN_BRACKET_TOKEN_TYPE,
+  CLOSE_BRACKET_TOKEN_TYPE,
+  UNQUOTED_STRING_TYPE,
+  NUMBER_TOKEN_TYPE,
+  MINUS_TOKEN_TYPE,
+  PLUS_TOKEN_TYPE,
+  DIVIDE_TOKEN_TYPE,
+  TIMES_TOKEN_TYPE,
+  ASSIGNMENT_OPERATOR_TYPE,
+  LET_KEYWORD_TYPE,
+  POWER_TOKEN_TYPE,
+  MODULO_TOKEN_TYPE,
+  TRUE_KEYWORD_TYPE,
+  FALSE_KEYWORD_TYPE,
+} from "./constants/token-types.js";
+
+export class Parser {
   #tokens;
   #position;
   constructor(tokens) {
@@ -64,30 +82,33 @@ class Parser {
   #parsePrimaryExpression() {
     const firstToken = this.#currentToken();
     switch (firstToken.tokenType) {
-      case "openBracketToken":
+      case OPEN_BRACKET_TOKEN_TYPE:
         let leftToken = this.#nextToken();
         let operatorToken = this.#parseVariableAssignment();
-        let rightToken = this.#match("closeBracketToken");
+        let rightToken = this.#match(CLOSE_BRACKET_TOKEN_TYPE);
         return new ParenthesisedExpression(
           leftToken,
           operatorToken,
           rightToken
         );
-      case "unquotedString":
+      case UNQUOTED_STRING_TYPE:
         const identifierToken = this.#nextToken();
         return new VariableAccess(identifierToken.tokenValue);
       default:
-        return this.#match("number");
+        return this.#match(NUMBER_TOKEN_TYPE);
     }
   }
 
   #getBinaryOperatorPriority(tokenType) {
     switch (tokenType) {
-      case "timesToken":
-      case "divideToken":
+      case POWER_TOKEN_TYPE:
+        return 3;
+      case TIMES_TOKEN_TYPE:
+      case DIVIDE_TOKEN_TYPE:
+      case MODULO_TOKEN_TYPE:
         return 2;
-      case "plusToken":
-      case "minusToken":
+      case PLUS_TOKEN_TYPE:
+      case MINUS_TOKEN_TYPE:
         return 1;
       default:
         return 0;
@@ -96,16 +117,16 @@ class Parser {
 
   #parseVariableAssignment() {
     if (
-      this.#currentToken().tokenType === "unquotedString" &&
-      this.#peek(1).tokenType === "assignmentOperator"
+      this.#currentToken().tokenType === UNQUOTED_STRING_TYPE &&
+      this.#peek(1).tokenType === ASSIGNMENT_OPERATOR_TYPE
     ) {
       const variableName = this.#nextToken();
       const identifierToken = this.#nextToken();
       const right = this.#parseVariableAssignment();
       return new VariableAssignment(variableName, identifierToken, right);
     } else if (
-      this.#currentToken().tokenType === "number" &&
-      this.#peek(1).tokenType === "assignmentOperator"
+      this.#currentToken().tokenType === NUMBER_TOKEN_TYPE &&
+      this.#peek(1).tokenType === ASSIGNMENT_OPERATOR_TYPE
     ) {
       throw new ParserError(
         `Parser error: variable names must be strings, got {${
@@ -119,9 +140,14 @@ class Parser {
 
   parse() {
     let ast;
-    if (this.#currentToken().tokenType === "letKeyword") {
+    if (this.#currentToken().tokenType === LET_KEYWORD_TYPE) {
       this.#nextToken(); // consume the 'let' token.
       ast = this.#parseVariableAssignment();
+    } else if (
+      this.#currentToken().tokenType === TRUE_KEYWORD_TYPE ||
+      this.#currentToken().tokenType === FALSE_KEYWORD_TYPE
+    ) {
+      ast = new BooleanExpression(this.#nextToken());
     } else {
       return this.#parseBinaryExpression();
     }
@@ -129,5 +155,3 @@ class Parser {
     return ast;
   }
 }
-
-exports.Parser = Parser;
